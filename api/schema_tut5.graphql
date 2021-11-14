@@ -1,0 +1,33 @@
+type Customer {
+    _id: ID!
+    queue_number: Int! #queue number for each customer
+    name: String! #name of the customer
+    contact_number: Int! #contact phone number of the customer
+    timestamp: String! #time when the customer submision was created
+}
+
+#Let's add CustomerInputs! based on the data we collect in the form(?)
+input CustomerInputs { #only 2 inputs we're collecting: Name and Contact number, ID and timestamp to be added at the server?
+    name: String!
+    contact_number: Int!
+}
+
+input CustomerInputsLight { #only 2 inputs we're collecting: Name and Contact number, ID and timestamp to be added at the server?
+    name: String!
+}
+
+input CustomerToDelete { #following the Inputs logic, only queue number is collected for customers to be deleted.
+    queue_number: Int!
+}
+
+##### Top level declarations - stealing separation from the textbook
+
+type Query {
+    customerList: [Customer!]! #field to return a list of customers; not only the return value is mandatory, but also each element in the list cannot be null.
+    customerRequest(customer: CustomerInputsLight!): Customer
+} #API call to read the list of customers into our app
+
+type Mutation {
+    customerAdd(customer: CustomerInputs!): Customer! #fully copy-pasting from the textbook example for now
+    customerDelete(customer: CustomerToDelete!): [Customer!]! #(?)
+}
